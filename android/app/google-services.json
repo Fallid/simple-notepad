@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1043045654732",
+    "project_id": "simplenote-20f4d",
+    "storage_bucket": "simplenote-20f4d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1043045654732:android:172ffaafee6cbafeb86269",
+        "android_client_info": {
+          "package_name": "com.example.simplenotepad"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1043045654732-8p619a19mip85u091t4hh1mhilh6osv4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC6jtaB0jqMsWy8qtWPSR1cVIrtHdJuA2k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1043045654732-8p619a19mip85u091t4hh1mhilh6osv4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
