@@ -34,6 +34,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    Size _size = MediaQuery.of(context).size;
     readData();
     return Scaffold(
       backgroundColor: AppStyle.backGroundCollor,
@@ -56,7 +57,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     ClipRRect(
                       borderRadius: BorderRadius.circular(7.0),
                       child: CachedNetworkImage(
-                        imageUrl: _storage.readURL(),
+                        imageUrl: _storage.readURL() != confirm_image &&
+                                confirm_image != null
+                            ? confirm_image
+                            : _storage.readURL(),
                         width: 50,
                         height: 50,
                         fit: BoxFit.fill,
@@ -67,10 +71,14 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                     Container(
-                      color: Colors.black,
-                      margin: EdgeInsets.only(left: 15.0),
+                      width: _size.width - 150,
+                      margin: const EdgeInsets.only(left: 15.0),
                       child: Text(
-                        _storage.readUserName(),
+                        _storage.readUserName() != confirm_name &&
+                                confirm_name != null
+                            ? confirm_name
+                            : _storage.readUserName(),
+                        overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                             color: AppStyle.Headline,
                             fontSize: 18,
@@ -99,6 +107,13 @@ class _HomeScreenState extends State<HomeScreen> {
             ],
             actionsIconTheme: IconThemeData(color: AppStyle.Button, size: 28),
           ),
+        ),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.only(left: 20, right: 20),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [Container()],
         ),
       ),
     );

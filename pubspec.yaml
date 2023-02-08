@@ -43,7 +43,8 @@ dependencies:
   firebase_storage: ^11.0.10
   file_picker: ^5.2.5
   cached_network_image: ^3.2.1
-  quickalert: ^1.0.0
+  percent_indicator: ^4.2.2
+  quickalert: ^1.0.1
 
 
 dev_dependencies:

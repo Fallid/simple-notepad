@@ -7,16 +7,24 @@ import 'package:flutter/material.dart';
 import 'package:simplenotepad/HomeScreen.dart';
 import 'package:simplenotepad/StorageService.dart';
 import 'package:simplenotepad/Style/App_style.dart';
+import 'package:quickalert/quickalert.dart';
 
-var fullName;
-var mobile_phone;
-var hobbies;
 var fileName;
-var storage;
-var image_refresh;
-var profile_valid;
 var URL;
-var val;
+var confirm_image;
+var confirm_name;
+var confirm_mobileNum;
+var confirm_hobbies;
+final Storage _storage = Storage();
+
+//for textfield value input
+TextEditingController _controllerName = TextEditingController();
+TextEditingController _controllerMobileNum = TextEditingController();
+TextEditingController _controllerHobbies = TextEditingController();
+
+String inputfullName = '';
+String inputMobilePhone = '';
+String inputhobbies = '';
 
 class UserProfile extends StatefulWidget {
   const UserProfile({Key? key}) : super(key: key);
@@ -26,11 +34,15 @@ class UserProfile extends StatefulWidget {
 }
 
 class _UserProfileState extends State<UserProfile> {
-  Storage _storage = Storage();
+  Future<void> adjustImage() async {
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
+        resizeToAvoidBottomInset: false,
         backgroundColor: AppStyle.backGroundCollor,
         appBar: AppBar(
           backgroundColor: AppStyle.backGroundCollor,
@@ -66,7 +78,10 @@ class _UserProfileState extends State<UserProfile> {
                         child:
                             // Text("Picture")
                             CachedNetworkImage(
-                          imageUrl: _storage.readURL(),
+                          imageUrl: _storage.readURL() != confirm_image &&
+                                  confirm_image != null
+                              ? confirm_image
+                              : _storage.readURL(),
                           width: 115,
                           height: 115,
                           fit: BoxFit.fill,
@@ -99,6 +114,7 @@ class _UserProfileState extends State<UserProfile> {
                               print(URL);
                               setState(() {
                                 _storage.writeURL(URL);
+                                _storage.readURL();
                               });
                               userRef
                                   .doc('user_profile')
@@ -152,7 +168,8 @@ class _UserProfileState extends State<UserProfile> {
                         SizedBox(
                           width: size.width - 105,
                           child: TextFormField(
-                            readOnly: true,
+                            readOnly: false,
+                            controller: _controllerName,
                             decoration: InputDecoration(
                                 hintText: _storage.readUserName(),
                                 hintStyle: TextStyle(
@@ -198,7 +215,8 @@ class _UserProfileState extends State<UserProfile> {
                         SizedBox(
                           width: size.width - 105,
                           child: TextFormField(
-                            readOnly: true,
+                            controller: _controllerMobileNum,
+                            readOnly: false,
                             decoration: InputDecoration(
                                 hintText: _storage.readMobileNum(),
                                 hintStyle: TextStyle(
@@ -245,7 +263,8 @@ class _UserProfileState extends State<UserProfile> {
                         SizedBox(
                           width: size.width - 105,
                           child: TextFormField(
-                            readOnly: true,
+                            controller: _controllerHobbies,
+                            readOnly: false,
                             decoration: InputDecoration(
                                 hintText: _storage.readHobbies(),
                                 hintStyle: TextStyle(
@@ -269,14 +288,31 @@ class _UserProfileState extends State<UserProfile> {
                         size: 28,
                       ),
                       onPressed: () async {
-                        Navigator.pushAndRemoveUntil(context,
-                            MaterialPageRoute(builder: (BuildContext context) {
-                          return const HomeScreen();
-                        }), (route) => false);
-                        userRef
-                            .doc('user_profile')
-                            .update({'has_profile': true}).then(
-                                (value) => print('valid user'));
+                        userRef.doc('user_profile').update({
+                          'has_profile': true,
+                          'full_name': inputfullName =
+                              _controllerName.text.isEmpty
+                                  ? _storage.readUserName()
+                                  : inputfullName = _controllerName.text,
+                          'mobile_phone': inputMobilePhone =
+                              _controllerMobileNum.text.isEmpty
+                                  ? _storage.readMobileNum()
+                                  : inputMobilePhone =
+                                      _controllerMobileNum.text,
+                          'hobbies': inputhobbies =
+                              _controllerHobbies.text.isEmpty
+                                  ? _storage.readHobbies()
+                                  : _storage.readHobbies(),
+                        }).then((value) => print('valid user'));
+                        setState(() {
+                          confirm_image = URL;
+                          confirm_name = inputfullName;
+                        });
+
+                        QuickAlert.show(
+                            context: context,
+                            type: QuickAlertType.success,
+                            borderRadius: 7);
                       },
                       style: ButtonStyle(
                           backgroundColor:
@@ -287,7 +323,7 @@ class _UserProfileState extends State<UserProfile> {
                                       borderRadius:
                                           BorderRadius.circular(7.0)))),
                       label: Text(
-                        "CONTINUE",
+                        "UPDATE",
                         style: TextStyle(
                             color: AppStyle.ButtonText,
                             fontWeight: FontWeight.bold),

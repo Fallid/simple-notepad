@@ -7,6 +7,7 @@ import 'package:simplenotepad/HomeScreen.dart';
 import 'package:simplenotepad/ProfilMaker.dart';
 import 'package:simplenotepad/StorageService.dart';
 import 'package:simplenotepad/Style/App_style.dart';
+import 'package:percent_indicator/percent_indicator.dart';
 
 final userRef = FirebaseFirestore.instance.collection('Profile');
 var validation;
@@ -14,6 +15,7 @@ var url_image;
 var fullName;
 var mobile_phone;
 var hobbies;
+var _timer;
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -23,8 +25,33 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  Storage _storage = Storage();
-  double initial = 0.0;
+  final Storage _storage = Storage();
+
+  @override
+  void initState() {
+    super.initState();
+    loadingProfileMake();
+    loadingHomeScreen();
+  }
+
+  void loadingProfileMake() async {
+    await Future.delayed(const Duration(milliseconds: 4500), () {
+      Navigator.pushAndRemoveUntil(context,
+          MaterialPageRoute(builder: (BuildContext context) {
+        return const ProfilMaker();
+      }), (route) => false);
+    });
+  }
+
+  void loadingHomeScreen() async {
+    await Future.delayed(const Duration(milliseconds: 4500), () {
+      Navigator.pushAndRemoveUntil(context,
+          MaterialPageRoute(builder: (BuildContext context) {
+        return const HomeScreen();
+      }), (route) => false);
+    });
+  }
+
   readData() async {
     //this if function for avoid error from back to previous page
     if (this.mounted) {
@@ -34,32 +61,26 @@ class _SplashScreenState extends State<SplashScreen> {
     }
   }
 
-  void update() {
-    Timer.periodic(Duration(milliseconds: 800), (timer) {
-      setState(() {
-        initial += 0.1;
-      });
-    });
+  @override
+  void dispose() {
+    // update();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    update();
     readData();
-    if (validation == false) {
-      Timer(
-          const Duration(milliseconds: 4500),
-          (() => Navigator.pushAndRemoveUntil(context,
-                  MaterialPageRoute(builder: (BuildContext context) {
-                return const ProfilMaker();
-              }), (route) => false)));
+
+    if (_storage.readValid() == false) {
+      if (mounted) {
+        setState(() {
+          loadingProfileMake();
+        });
+      }
     } else {
-      Timer(
-          const Duration(milliseconds: 4500),
-          (() => Navigator.pushAndRemoveUntil(context,
-                  MaterialPageRoute(builder: (BuildContext context) {
-                return const HomeScreen();
-              }), (route) => false)));
+      if (mounted) {
+        loadingHomeScreen();
+      }
     }
     Size size = MediaQuery.of(context).size;
     return Scaffold(
@@ -80,14 +101,14 @@ class _SplashScreenState extends State<SplashScreen> {
                 height: 30,
                 width: size.width,
               ),
-              ClipRRect(
-                borderRadius: const BorderRadius.all(Radius.circular(7)),
-                child: LinearProgressIndicator(
-                  value: initial,
-                  minHeight: 18,
-                  backgroundColor: AppStyle.MainColor,
-                  valueColor: AlwaysStoppedAnimation(AppStyle.SecondCollor),
-                ),
+              LinearPercentIndicator(
+                lineHeight: 18,
+                barRadius: const Radius.circular(7),
+                animation: true,
+                animationDuration: 3500,
+                percent: 100 / 100,
+                backgroundColor: AppStyle.MainColor,
+                progressColor: AppStyle.SecondCollor,
               )
             ],
           ),
