@@ -10,7 +10,9 @@ import 'package:simplenotepad/Style/App_style.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
 final userRef = FirebaseFirestore.instance.collection('Profile');
-var validation;
+//Change validation to true if want goes to HomeScreen immediately
+bool validation = false;
+
 var url_image;
 var fullName;
 var mobile_phone;
@@ -36,19 +38,21 @@ class _SplashScreenState extends State<SplashScreen> {
 
   void loadingProfileMake() async {
     await Future.delayed(const Duration(milliseconds: 4500), () {
-      Navigator.pushAndRemoveUntil(context,
+      Navigator.pushReplacement(context,
           MaterialPageRoute(builder: (BuildContext context) {
         return const ProfilMaker();
-      }), (route) => false);
+      }));
     });
   }
 
   void loadingHomeScreen() async {
     await Future.delayed(const Duration(milliseconds: 4500), () {
-      Navigator.pushAndRemoveUntil(context,
-          MaterialPageRoute(builder: (BuildContext context) {
-        return const HomeScreen();
-      }), (route) => false);
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (BuildContext context) {
+          return const HomeScreen();
+        }),
+      );
     });
   }
 
@@ -71,7 +75,8 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     readData();
 
-    if (_storage.readValid() == false) {
+    _storage.readDataBase();
+    if (validation == false) {
       if (mounted) {
         setState(() {
           loadingProfileMake();
@@ -80,6 +85,7 @@ class _SplashScreenState extends State<SplashScreen> {
     } else {
       if (mounted) {
         loadingHomeScreen();
+        print(globValid);
       }
     }
     Size size = MediaQuery.of(context).size;

@@ -54,6 +54,7 @@ class _ProfilePictureState extends State<ProfilePicture> {
     // Storage storage = Storage();
     Size size = MediaQuery.of(context).size;
     return Scaffold(
+        resizeToAvoidBottomInset: false,
         appBar: AppBar(
           elevation: 0,
           backgroundColor: AppStyle.backGroundCollor,

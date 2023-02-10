@@ -47,18 +47,21 @@ class _UserProfileState extends State<UserProfile> {
         appBar: AppBar(
           backgroundColor: AppStyle.backGroundCollor,
           elevation: 0,
-          leading: IconButton(
-              onPressed: () {
-                Navigator.pushReplacement(context,
-                    MaterialPageRoute(builder: (BuildContext context) {
-                  return const HomeScreen();
-                }));
-              },
-              icon: Icon(
-                Icons.arrow_back_ios,
-                color: AppStyle.Button,
-                size: 28,
-              )),
+          leading: Padding(
+            padding: const EdgeInsets.only(left: 10.0),
+            child: IconButton(
+                onPressed: () {
+                  Navigator.pushAndRemoveUntil(context,
+                      MaterialPageRoute(builder: (BuildContext context) {
+                    return const HomeScreen();
+                  }), (route) => false);
+                },
+                icon: Icon(
+                  Icons.arrow_back_ios,
+                  color: AppStyle.Button,
+                  size: 28,
+                )),
+          ),
         ),
         body: SafeArea(
           top: true,
@@ -215,6 +218,7 @@ class _UserProfileState extends State<UserProfile> {
                         SizedBox(
                           width: size.width - 105,
                           child: TextFormField(
+                            keyboardType: TextInputType.number,
                             controller: _controllerMobileNum,
                             readOnly: false,
                             decoration: InputDecoration(

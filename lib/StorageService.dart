@@ -7,7 +7,7 @@ var globFullName;
 var globMobileNum;
 var globURL_Image;
 var globHobbies;
-var globValid;
+bool? globValid;
 
 class Storage {
   readDataBase() async {
@@ -40,7 +40,7 @@ class Storage {
     return globHobbies;
   }
 
-  readValid() {
-    return globValid;
-  }
+  // bool readValid() {
+  //   return globValid;
+  // }
 }

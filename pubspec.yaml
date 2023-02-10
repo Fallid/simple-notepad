@@ -45,6 +45,8 @@ dependencies:
   cached_network_image: ^3.2.1
   percent_indicator: ^4.2.2
   quickalert: ^1.0.1
+  intl: ^0.18.0
+  flutter_launcher_icons: ^0.11.0
 
 
 dev_dependencies:
