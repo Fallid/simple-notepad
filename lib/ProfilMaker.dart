@@ -1,10 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:simplenotepad/ProfilePicture.dart';
 import 'package:simplenotepad/Style/App_style.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 
 //FireBase ref of user profile
 final userRef = FirebaseFirestore.instance.collection('Profile');
@@ -46,7 +44,7 @@ class _ProfilMakerState extends State<ProfilMaker> {
     readData();
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: true,
       backgroundColor: AppStyle.backGroundCollor,
       body: SafeArea(
           top: true,

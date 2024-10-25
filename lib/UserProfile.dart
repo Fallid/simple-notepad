@@ -81,10 +81,9 @@ class _UserProfileState extends State<UserProfile> {
                         child:
                             // Text("Picture")
                             CachedNetworkImage(
-                          imageUrl: _storage.readURL() != confirm_image &&
-                                  confirm_image != null
-                              ? confirm_image
-                              : _storage.readURL(),
+                          imageUrl: _storage.readURL() != null
+                              ? _storage.readURL()
+                              : "https://firebasestorage.googleapis.com/v0/b/simplenote-20f4d.appspot.com/o/files%2Fblank-profile-picture-g5d583e0d9_1280.png?alt=media&token=ddfb1d04-3090-4707-8dfe-6f7cba2b640a",
                           width: 115,
                           height: 115,
                           fit: BoxFit.fill,

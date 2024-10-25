@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:intl/intl.dart';
 import 'package:quickalert/quickalert.dart';
 import 'package:simplenotepad/HomeScreen.dart';
@@ -10,6 +9,7 @@ import 'package:simplenotepad/Style/App_style.dart';
 String TitleEditing = '';
 bool readOnly = true;
 
+// ignore: must_be_immutable
 class NoteReader extends StatefulWidget {
   NoteReader(this.doc, {Key? key}) : super(key: key);
   QueryDocumentSnapshot doc;

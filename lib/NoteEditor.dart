@@ -19,6 +19,7 @@ class NoteEditor extends StatefulWidget {
 }
 
 class _NoteEditorState extends State<NoteEditor> {
+  // ignore: prefer_final_fields
   String _date = DateFormat.yMEd().add_jm().format(DateTime.now());
   getDocIndex() async {
     var idUser = FirebaseFirestore.instance.collection('Notes').doc().id;
@@ -29,14 +30,13 @@ class _NoteEditorState extends State<NoteEditor> {
       'UID': idUser
     });
     Navigator.pop(context, MaterialPageRoute(builder: (BuildContext context) {
-      return HomeScreen();
+      return const HomeScreen();
     }));
     print(idUser);
   }
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: AppStyle.backGroundCollor,
@@ -138,7 +138,7 @@ class _NoteEditorState extends State<NoteEditor> {
                   ? getDocIndex()
                   : Navigator.pop(context,
                       MaterialPageRoute(builder: (BuildContext context) {
-                      return HomeScreen();
+                      return const HomeScreen();
                     }));
             },
             child: Icon(

@@ -5,14 +5,16 @@ import 'package:simplenotepad/HomeScreen.dart';
 import 'package:simplenotepad/NoteEditor.dart';
 import 'package:simplenotepad/SplashScreen.dart';
 import 'package:simplenotepad/UserProfile.dart';
+import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+);
   SystemChrome.setPreferredOrientations(
           [DeviceOrientation.portraitDown, DeviceOrientation.portraitUp])
       .then((value) => runApp(const MyApp()));
-  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {

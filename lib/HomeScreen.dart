@@ -59,7 +59,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: CachedNetworkImage(
                         imageUrl: _storage.readURL() != confirm_image &&
                                 confirm_image != null
-                            ? confirm_image
+                            ? confirm_image.toString()
                             : _storage.readURL(),
                         width: 50,
                         height: 50,
