@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:simplenotepad/app/routes/app_pages.dart';
 
 class SplashController extends GetxController {
   //TODO: Implement SplashController
@@ -11,13 +12,19 @@ class SplashController extends GetxController {
 
   @override
   void onReady() {
+    loadingHomeScreen();
     super.onReady();
   }
 
   @override
   void onClose() {
+    Duration();
     super.onClose();
   }
 
-  void increment() => count.value++;
+  void loadingHomeScreen() async {
+    await Future.delayed(const Duration(milliseconds: 4500), () {
+      Get.offAndToNamed(Routes.AUTH_LOGIN);
+    });
+  }
 }
