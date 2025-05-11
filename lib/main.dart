@@ -15,7 +15,7 @@ Future<void> main() async {
   debugPaintSizeEnabled = true;
   // debugPaintPointersEnabled= true;
   // debugRepaintRainbowEnabled= true;
-  debugPaintLayerBordersEnabled = true;
+  // debugPaintLayerBordersEnabled = true;
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
