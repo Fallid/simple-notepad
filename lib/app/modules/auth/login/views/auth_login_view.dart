@@ -1,9 +1,11 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
 import 'package:get/get.dart' as getx;
 import 'package:responsive_framework/responsive_framework.dart';
+import 'package:simplenotepad/app/routes/app_pages.dart';
 import 'package:simplenotepad/app/utils/themes/color_themes.dart';
 
 import '../controllers/auth_login_controller.dart';
@@ -24,6 +26,8 @@ class AuthLoginView extends getx.GetView<AuthLoginController> {
               value: ResponsiveRowColumnType.COLUMN,
               landscapeValue: ResponsiveRowColumnType.COLUMN)
         ], defaultValue: ResponsiveRowColumnType.COLUMN).value}');
+    // controller.isButtonValid.value = false;
+    controller.loginButtonValidation();
     return Scaffold(
         backgroundColor: AppColor.backgroundColor,
         body: SingleChildScrollView(
@@ -95,11 +99,12 @@ class AuthLoginView extends getx.GetView<AuthLoginController> {
                       child: LoginTextField(
                           controller: controller,
                           title: "Password",
+                          loginHintText: "*****",
                           isFieldValid: controller.isPasswordValid,
                           contentPaddingTop:
                               MediaQuery.of(context).orientation ==
                                       Orientation.portrait
-                                  ? 15
+                                  ? 10
                                   : 5,
                           contentPaddingLeft: 10,
                           contentPaddingRight: 10,
@@ -119,27 +124,67 @@ class AuthLoginView extends getx.GetView<AuthLoginController> {
                               textAlign: TextAlign.end,
                             ),
                           ))),
-                  ResponsiveRowColumnItem(
-                      child: ElevatedButton(
+                  ResponsiveRowColumnItem(child: getx.Obx(
+                    () {
+                      controller.loginButtonValidation();
+                      return ElevatedButton(
                           style: ButtonStyle(
                               backgroundColor: WidgetStatePropertyAll(
-                                  AppColor.primarySecondColor),
+                                  controller.loginButtonValidation().isFalse
+                                      ? AppColor.primarySecondDisableColor
+                                      : AppColor.primarySecondColor),
                               shape: WidgetStatePropertyAll(
                                   RoundedRectangleBorder(
                                       borderRadius:
                                           BorderRadius.circular(10).w)),
                               minimumSize: WidgetStatePropertyAll(
-                                  Size(context.width, 46.h))),
+                                  Size(context.width, 40.h))),
                           onPressed: () {
-                            debugPrint('Login Clicked!');
+                            debugPrint('${controller.isButtonValid.value}');
+                            controller.loginButtonValidation().isFalse
+                                ? null
+                                : controller.isLoading.isFalse
+                                    ? controller.loginUser(
+                                        controller.emailController.text,
+                                        controller.passwordController.text)
+                                    : null;
                           },
-                          child: Text(
-                            "Login",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 14.sp,
-                                fontWeight: FontWeight.bold),
-                          ))),
+                          child: controller.isLoading.isTrue
+                              ? CircularProgressIndicator()
+                              : Text(
+                                  "Login",
+                                  style: TextStyle(
+                                      color: AppColor.backgroundColor,
+                                      fontSize: 14.sp,
+                                      fontWeight: FontWeight.bold),
+                                ));
+                    },
+                  )),
+                  ResponsiveRowColumnItem(
+                    child: SizedBox(
+                      width: 1.sw,
+                      child: Text.rich(
+                          textAlign: TextAlign.center,
+                          TextSpan(children: [
+                            TextSpan(
+                                text: "Don't have an account? ",
+                                style: TextStyle(
+                                    color: AppColor.secondaryColor,
+                                    fontSize: 12.sp)),
+                            TextSpan(
+                                text: "Sign up for free",
+                                style: TextStyle(
+                                    color: AppColor.primarySecondColor,
+                                    fontSize: 12.sp,
+                                    decoration: TextDecoration.underline,
+                                    decorationColor:
+                                        AppColor.primarySecondColor),
+                                recognizer: TapGestureRecognizer()
+                                  ..onTap = () =>
+                                      getx.Get.toNamed(Routes.AUTH_REGISTER))
+                          ])),
+                    ),
+                  ),
                   ResponsiveRowColumnItem(
                       child: Container(
                     alignment: Alignment.bottomRight,

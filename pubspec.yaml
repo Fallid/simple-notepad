@@ -43,6 +43,7 @@ dependencies:
   flutter_quill: ^11.4.0
   flutter_svg: ^2.1.0
   percent_indicator: ^4.2.5
+  firebase_auth: ^5.5.3
 
 dev_dependencies:
   flutter_test:

@@ -42,6 +42,7 @@ class LoginTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     debugPrint('Validation value: ${validationType}');
     debugPrint('isField value: ${isFieldValid.value}');
+    isFieldValid.value = true;
     return Column(
       crossAxisAlignment: crossAxisAlignment,
       mainAxisAlignment: mainAxisAlignment,
@@ -54,73 +55,75 @@ class LoginTextField extends StatelessWidget {
         ),
         10.verticalSpace,
         Obx(() => TextField(
-          onChanged: (value) {
-            if (value.isEmpty ||
-                controller.emailController.value.toString().isEmpty) {
-              isFieldValid.value = true;
-            } else {
-              switch (validationType.value) {
-                case "email":
-                  controller.emailValidation().value;
-                  debugPrint(
-                      "email validation value:  ${controller.emailValidation().value}");
-                  break;
-                case "password":
-                  controller.passwordValidation().value;
-                  debugPrint(
-                      "password validation value:  ${controller.passwordValidation().value}");
-                  break;
-                default:
-                  controller.isEmailValid = true.obs;
-                  // controller.isEmailValid = true.obs;
-                  break;
-              }
-            }
-          },
-          controller: validationType.value.contains("email")
-              ? controller.emailController
-              : controller.passwordController,
-          keyboardType: validationType.value.contains("email")
-              ? TextInputType.emailAddress
-              : TextInputType.visiblePassword,
-          obscureText: validationType.value.contains("email")
-              ? false
-              : controller.showPassword.value,
-          style: TextStyle(color: Colors.black, fontSize: 12.sp),
-          decoration: InputDecoration(
-              constraints: BoxConstraints(
-                  maxWidth: context.width),
-              contentPadding: EdgeInsets.only(
-                      left: contentPaddingLeft,
-                      right: contentPaddingRight,
-                      top: contentPaddingTop,
-                      bottom: contentPaddingBottom)
-                  .w,
-              filled: true,
-              fillColor: AppColor.primaryColor,
-              hintText: loginHintText,
-              hintStyle: TextStyle(color: Colors.black, fontSize: 12.sp),
-              errorText: isFieldValid.isFalse
-                  ? validationType.value.contains("email")
-                      ? controller.errorEmailMesage.value
-                      : controller.errorPasswordMesage.value
-                  : null,
-              suffixIcon: validationType.value.contains("email")
-                  ? null
-                  : IconButton(
-                      onPressed: controller.toggleObscureText,
-                      icon: Icon(
-                        controller.showPassword.value
-                            ? Icons.visibility
-                            : Icons.visibility_off,
-                        color: Colors.black54,
-                        size: 26.r,
-                      )),
-              errorBorder: AppBorder.errorTextFieldBorder,
-              focusedErrorBorder: AppBorder.errorTextFieldBorder,
-              focusedBorder: AppBorder.focusedTextFieldBorder,
-              enabledBorder: AppBorder.enabledTextFieldBorder),
-        ))
+              textAlign: TextAlign.left,
+              onChanged: (value) {
+                if (value.isEmpty) {
+                  isFieldValid.value = true;
+                } else {
+                  switch (validationType.value) {
+                    case "email":
+                      controller.emailValidation().value;
+                      controller.loginButtonValidation();
+                      debugPrint(
+                          "email validation value:  ${controller.emailValidation().value}");
+                      break;
+                    case "password":
+                      controller.loginButtonValidation();
+                      controller.passwordValidation().value;
+
+                      debugPrint(
+                          "password validation value:  ${controller.passwordValidation().value}");
+                      break;
+                    default:
+                      controller.isEmailValid = true.obs;
+                      controller.isPasswordValid = true.obs;
+                      break;
+                  }
+                }
+              },
+              controller: validationType.value.contains("email")
+                  ? controller.emailController
+                  : controller.passwordController,
+              keyboardType: validationType.value.contains("email")
+                  ? TextInputType.emailAddress
+                  : TextInputType.visiblePassword,
+              obscureText: validationType.value.contains("email")
+                  ? false
+                  : controller.showPassword.value,
+              style: TextStyle(color: Colors.black, fontSize: 12.sp),
+              decoration: InputDecoration(
+                  constraints: BoxConstraints(maxWidth: context.width),
+                  contentPadding: EdgeInsets.only(
+                          left: contentPaddingLeft,
+                          right: contentPaddingRight,
+                          top: contentPaddingTop,
+                          bottom: contentPaddingBottom)
+                      .w,
+                  filled: true,
+                  fillColor: AppColor.primaryColor,
+                  hintText: loginHintText,
+                  hintStyle: TextStyle(color: Colors.black, fontSize: 12.sp),
+                  errorText: isFieldValid.isTrue
+                      ? null
+                      : validationType.value.contains("email")
+                          ? controller.errorEmailMesage.value
+                          : controller.errorPasswordMesage.value,
+                  suffixIcon: validationType.value.contains("email")
+                      ? null
+                      : IconButton(
+                          onPressed: controller.toggleObscureText,
+                          icon: Icon(
+                            controller.showPassword.value
+                                ? Icons.visibility
+                                : Icons.visibility_off,
+                            color: Colors.black54,
+                            size: 26.r,
+                          )),
+                  errorBorder: AppBorder.errorTextFieldBorder,
+                  focusedErrorBorder: AppBorder.errorTextFieldBorder,
+                  focusedBorder: AppBorder.focusedTextFieldBorder,
+                  enabledBorder: AppBorder.enabledTextFieldBorder),
+            ))
       ],
     );
   }
