@@ -81,11 +81,11 @@ class AuthLoginController extends GetxController {
     return isButtonValid;
   }
 
-  Future<void> loginUser(String email, String password) async {
+  Future<void> loginUser() async {
     try {
       isLoading.value = true;
       await _firebaseAuth.signInWithEmailAndPassword(
-          email: email, password: password);
+          email: emailController.text, password: passwordController.text);
       Get.snackbar("Success Login", "Login Sucees, Welcome back",
           duration: Duration(seconds: 3));
       Get.offAndToNamed(Routes.HOME);
