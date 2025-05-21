@@ -1,11 +1,28 @@
 {
-    "buttons": {
-      "login": "Masuk",
-      "sign_in": "Masuk",
-      "logout": "Keluar",
-      "sign_in_fb": "Masuk dengan Facebook",
-      "sign_in_google": "Masuk dengan Google",
-      "sign_in_apple": "Masuk dengan Apple"
-    }
+  "buttons_auth": {
+    "login": "Masuk",
+    "register":"Daftar",
+    "sign_in": "Masuk di sini",
+    "logout": "Keluar",
+    "forgot_password": "Lupa Password",
+    "sign_up": "Daftar secara gratis"
+  },
+
+  "header_auth": {
+    "welcome_back": "Hai, selamat datang 👋",
+    "greetings": "Masukkan informasi yang telah kamu daftarkan",
+    "create_account": "Buat akun kamu",
+    "information_field": "Isi kolom di bawah ini untuk memulai"
+  },
+
+  "body_auth": {
+    "email": "Surel",
+    "password": "Sandi",
+    "name": "Nama",
+    "dont_have_account": "Tidak punya akun?",
+    "already_have_account":"Sudah memiliki akun?",
+    "hint_email": "contoh@mail.com",
+    "hint_password": "*****",
+    "hint_name": "Jhon due"
   }
-  
+}

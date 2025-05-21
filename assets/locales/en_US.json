@@ -1,10 +1,28 @@
 {
-  "buttons": {
+  "buttons_auth": {
     "login": "Login",
-    "sign_in": "Sign-in",
+    "register":"Register",
+    "sign_in": "Sign in here",
     "logout": "Logout",
-    "sign_in_fb": "Sign-in with Facebook",
-    "sign_in_google": "Sign-in with Google",
-    "sign_in_apple": "Sign-in with Apple"
+    "forgot_password": "Forgot Password",
+    "sign_up": "Sign up for free"
+  },
+
+  "header_auth": {
+    "welcome_back": "Hey, welcome back 👋",
+    "greetings": "Enter the information you entered while registering",
+    "create_account": "Create your account",
+    "information_field": "Enter the fields below to get started"
+  },
+
+  "body_auth": {
+    "email": "Email",
+    "password": "Password",
+    "name":"Name",
+    "dont_have_account": "Don't have account?",
+    "already_have_account":"Already have account?",
+    "hint_email": "example@mail.com",
+    "hint_password": "*****",
+    "hint_name":"Jhon due"
   }
 }
