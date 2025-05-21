@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
 
 import 'package:get/get.dart' as getx;
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:simplenotepad/app/routes/app_pages.dart';
 import 'package:simplenotepad/app/utils/themes/color_themes.dart';
+import 'package:simplenotepad/app/utils/themes/svg_themes.dart';
+import 'package:simplenotepad/generated/locales.g.dart';
 
+import '../../../widgets/languange_switch_button.dart';
 import '../../widgets/authentication_button.dart';
 import '../../widgets/register_login_text_button.dart';
 import '../controllers/auth_login_controller.dart';
@@ -28,8 +30,9 @@ class AuthLoginView extends getx.GetView<AuthLoginController> {
           top: true,
           child: ConstrainedBox(
             constraints: BoxConstraints(
-                minHeight: context.height - ScreenUtil().statusBarHeight,
-                minWidth: context.width,),
+              minHeight: context.height - ScreenUtil().statusBarHeight,
+              minWidth: context.width,
+            ),
             child: SingleChildScrollView(
               child: ResponsiveRowColumn(
                 layout: ResponsiveValue(
@@ -42,7 +45,7 @@ class AuthLoginView extends getx.GetView<AuthLoginController> {
                   ],
                   defaultValue: ResponsiveRowColumnType.COLUMN,
                 ).value,
-                      
+
                 // column aligment setting
                 columnCrossAxisAlignment: CrossAxisAlignment.start,
                 columnMainAxisAlignment: MainAxisAlignment.start,
@@ -51,13 +54,13 @@ class AuthLoginView extends getx.GetView<AuthLoginController> {
                 columnSpacing: 20.r,
                 columnPadding:
                     EdgeInsets.only(left: 20.r, right: 20.r, top: 20.r),
-                      
+
                 // row alignment setting
                 rowCrossAxisAlignment: CrossAxisAlignment.start,
                 rowMainAxisAlignment: MainAxisAlignment.start,
                 rowMainAxisSize: MainAxisSize.max,
                 rowVerticalDirection: VerticalDirection.down,
-                      
+
                 // widget
                 children: [
                   // header
@@ -66,43 +69,51 @@ class AuthLoginView extends getx.GetView<AuthLoginController> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Text(
-                        'Hey, welcome back 👋',
-                        style: TextStyle(fontSize: 20.sp, color: Colors.white),
+                      SizedBox(
+                        width: 1.sw,
+                        height: 40.h,
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              LocaleKeys.header_auth_welcome_back.tr,
+                              style: TextStyle(
+                                  fontSize: 20.sp, color: Colors.white),
+                            ),
+                            LanguageSwitchButton(onPressed: () =>  controller.languangeController.toggleLocale(),)
+                          ],
+                        ),
                       ),
-                      10.verticalSpace,
+                      5.verticalSpace,
                       Text(
-                        "Enter the information you entered while registering",
+                        LocaleKeys.header_auth_greetings.tr,
                         style: TextStyle(fontSize: 11.sp, color: Colors.white),
                       ),
                       20.verticalSpace
                     ],
                   )),
-                      
+
                   // body email field
                   ResponsiveRowColumnItem(
                       child: LoginTextField(
                     controller: controller,
-                    title: "Email",
+                    title: LocaleKeys.body_auth_email.tr,
                     isFieldValid: controller.isEmailValid,
-                    loginHintText: "example@mail.com",
-                    contentPaddingLeft: 10,
-                    contentPaddingRight: 10,
+                    loginHintText: LocaleKeys.body_auth_hint_email.tr,
                     validationType: 'email'.obs,
                   )),
                   ResponsiveRowColumnItem(
                       child: LoginTextField(
                           controller: controller,
-                          title: "Password",
-                          loginHintText: "*****",
+                          title: LocaleKeys.body_auth_password.tr,
+                          loginHintText: LocaleKeys.body_auth_hint_password.tr,
                           isFieldValid: controller.isPasswordValid,
                           contentPaddingTop:
                               MediaQuery.of(context).orientation ==
                                       Orientation.portrait
                                   ? 10
                                   : 5,
-                          contentPaddingLeft: 10,
-                          contentPaddingRight: 10,
                           validationType: 'password'.obs)),
                   ResponsiveRowColumnItem(
                       child: SizedBox(
@@ -110,7 +121,7 @@ class AuthLoginView extends getx.GetView<AuthLoginController> {
                           child: GestureDetector(
                             onTap: () => debugPrint("Forgot Password clicked!"),
                             child: Text(
-                              "Forgot Password",
+                              LocaleKeys.buttons_auth_forgot_password.tr,
                               style: TextStyle(
                                   color: AppColor.primarySecondColor,
                                   fontSize: 12.sp,
@@ -124,23 +135,19 @@ class AuthLoginView extends getx.GetView<AuthLoginController> {
                           buttonValidation: controller.loginButtonValidation(),
                           isLoading: controller.isLoading,
                           onPressed: controller.loginUser,
-                          title: "Login")),
+                          title: LocaleKeys.buttons_auth_login.tr)),
                   ResponsiveRowColumnItem(
                     child: RegisterLoginTextButton(
-                      message: "Don't have an account? ",
-                      textButton: "Sign up for free",
+                      message: LocaleKeys.body_auth_dont_have_account.tr,
+                      textButton: LocaleKeys.buttons_auth_sign_up.tr,
                       onTap: () => getx.Get.toNamed(Routes.AUTH_REGISTER),
                     ),
                   ),
                   ResponsiveRowColumnItem(
                       child: Container(
                     alignment: Alignment.bottomRight,
-                    child: SvgPicture.asset(
-                      'assets/svg/login_illust.svg',
-                      fit: BoxFit.cover,
-                      height: 200.r,
-                      width: 200.r,
-                    ),
+                    child: 
+                    SvgThemes().authCharacter(SvgRoutes.loginIllust)
                   ))
                 ],
               ),
@@ -149,3 +156,5 @@ class AuthLoginView extends getx.GetView<AuthLoginController> {
         ));
   }
 }
+
+

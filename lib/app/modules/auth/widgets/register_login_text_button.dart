@@ -22,7 +22,7 @@ class RegisterLoginTextButton extends StatelessWidget {
           textAlign: TextAlign.center,
           TextSpan(children: [
             TextSpan(
-                text: message,
+                text: "$message ",
                 style:
                     TextStyle(color: AppColor.secondaryColor, fontSize: 12.sp)),
             TextSpan(

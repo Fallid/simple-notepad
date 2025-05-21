@@ -1,10 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:simplenotepad/app/data/language.dart';
 import 'package:simplenotepad/app/routes/app_pages.dart';
 
 class AuthLoginController extends GetxController {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+  final LanguageController languangeController = Get.find<LanguageController>(); 
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 

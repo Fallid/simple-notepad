@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
 
 import 'package:get/get.dart' as getx;
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:simplenotepad/app/modules/auth/register/views/widgets/register_text_field.dart';
 import 'package:simplenotepad/app/modules/auth/widgets/authentication_button.dart';
 import 'package:simplenotepad/app/utils/themes/color_themes.dart';
+import 'package:simplenotepad/app/utils/themes/svg_themes.dart';
+import 'package:simplenotepad/generated/locales.g.dart';
 
+import '../../../widgets/languange_switch_button.dart';
 import '../../widgets/register_login_text_button.dart';
 import '../controllers/auth_register_controller.dart';
 
@@ -53,13 +55,25 @@ class AuthRegisterView extends getx.GetView<AuthRegisterController> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Text(
-                      'Create your account',
-                      style: TextStyle(fontSize: 20.sp, color: Colors.white),
+                    SizedBox(
+                      width: 1.sw,
+                      height: 40.h,
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            LocaleKeys.header_auth_create_account.tr,
+                            style:
+                                TextStyle(fontSize: 20.sp, color: Colors.white),
+                          ),
+                          LanguageSwitchButton(onPressed: () =>  controller.languangeController.toggleLocale(),)
+                        ],
+                      ),
                     ),
-                    10.verticalSpace,
+                    5.verticalSpace,
                     Text(
-                      "Enter the fields below to get started",
+                      LocaleKeys.header_auth_information_field.tr,
                       style: TextStyle(fontSize: 11.sp, color: Colors.white),
                     ),
                     20.verticalSpace
@@ -67,20 +81,16 @@ class AuthRegisterView extends getx.GetView<AuthRegisterController> {
                 )),
                 ResponsiveRowColumnItem(
                     child: RegisterTextField(
-                        contentPaddingLeft: 10,
-                        contentPaddingRight: 10,
                         controller: controller,
-                        title: "Name",
-                        registerHintText: "Jhon due",
+                        title: LocaleKeys.body_auth_name.tr,
+                        registerHintText: LocaleKeys.body_auth_hint_name.tr,
                         isFieldValid: controller.isNameValid,
                         validationType: ValidationType.name)),
                 ResponsiveRowColumnItem(
                     child: RegisterTextField(
-                        contentPaddingLeft: 10,
-                        contentPaddingRight: 10,
                         controller: controller,
-                        title: "Email",
-                        registerHintText: "example@mail.com",
+                        title: LocaleKeys.body_auth_email.tr,
+                        registerHintText: LocaleKeys.body_auth_hint_email.tr,
                         isFieldValid: controller.isEmailValid,
                         validationType: ValidationType.email)),
                 ResponsiveRowColumnItem(
@@ -89,17 +99,15 @@ class AuthRegisterView extends getx.GetView<AuthRegisterController> {
                                 Orientation.portrait
                             ? 10
                             : 5,
-                        contentPaddingLeft: 10,
-                        contentPaddingRight: 10,
                         controller: controller,
-                        title: "Password",
-                        registerHintText: "*****",
+                        title: LocaleKeys.body_auth_password.tr,
+                        registerHintText: LocaleKeys.body_auth_hint_password.tr,
                         isFieldValid: controller.isEmailValid,
                         validationType: ValidationType.password)),
                 ResponsiveRowColumnItem(
                   child: RegisterLoginTextButton(
-                    message: "Already have an account? ",
-                    textButton: "Sign in here",
+                    message: LocaleKeys.body_auth_already_have_account.tr,
+                    textButton: LocaleKeys.buttons_auth_sign_in.tr,
                     onTap: () => getx.Get.back(),
                   ),
                 ),
@@ -108,17 +116,12 @@ class AuthRegisterView extends getx.GetView<AuthRegisterController> {
                         buttonValidation: controller.buttonValidation(),
                         isLoading: controller.isLoading,
                         onPressed: controller.registerUser,
-                        title: "Register")),
+                        title: LocaleKeys.buttons_auth_register.tr)),
                 ResponsiveRowColumnItem(
                     child: Container(
-                  alignment: Alignment.bottomRight,
-                  child: SvgPicture.asset(
-                    'assets/svg/register_illust.svg',
-                    fit: BoxFit.cover,
-                    height: 200.r,
-                    width: 200.r,
-                  ),
-                ))
+                        alignment: Alignment.bottomRight,
+                        child: SvgThemes()
+                            .authCharacter(SvgRoutes.registerIllust)))
               ],
             ),
           )),
