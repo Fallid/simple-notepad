@@ -13,6 +13,7 @@ class AuthLoginController extends GetxController {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
+  final Rx<User?> firebaseUser = Rx<User?>(null);
   RxBool showPassword = true.obs;
   RxBool isEmailValid = false.obs;
   RxBool isPasswordValid = false.obs;
@@ -26,8 +27,9 @@ class AuthLoginController extends GetxController {
     emailController;
     passwordController;
     super.onInit();
+    firebaseUser.bindStream(_authenticationProvider.authStateChanges);
+    ever(firebaseUser, _handleAuthChanges);
   }
-
 
   @override
   void onClose() {
@@ -62,8 +64,7 @@ class AuthLoginController extends GetxController {
   RxBool passwordValidation() {
     if (passwordController.text.isEmpty ||
         passwordController.value.text.length < 8) {
-      errorPasswordMesage.value =
-          LocaleKeys.error_auth_password_message.tr;
+      errorPasswordMesage.value = LocaleKeys.error_auth_password_message.tr;
       isPasswordValid.value = false;
     } else {
       errorPasswordMesage.value = "";
@@ -100,11 +101,37 @@ class AuthLoginController extends GetxController {
         backgroundColor: Colors.red,
       ));
     } catch (e) {
-      Get.snackbar(
-          'Error', '${LocaleKeys.error_auth_login_message.tr} $e',
+      Get.snackbar('Error', '${LocaleKeys.error_auth_login_message.tr} $e',
           backgroundColor: Colors.red);
     } finally {
       isLoading.value = false;
+    }
+  }
+
+  void _handleAuthChanges(User? user) {
+    if (Get.currentRoute == Routes.SPLASH) {
+      if (user == null) {
+        // Pengguna TIDAK login
+        Get.offAllNamed(Routes.AUTH_LOGIN); // Arahkan ke halaman login
+      } else {
+        // Pengguna SUDAH login
+        print('Pengguna ${user.email} sudah login. UID: ${user.uid}');
+        Get.offAllNamed(Routes.HOME); // Arahkan ke halaman utama
+      }
+    } else {
+      // Jika sudah tidak di splash screen, dan status auth berubah (misal logout dari Home)
+      // maka navigasi akan terjadi ke login.
+      if (user == null &&
+          Get.currentRoute != Routes.AUTH_LOGIN &&
+          Get.currentRoute != Routes.AUTH_REGISTER) {
+        Get.offAllNamed(Routes.AUTH_LOGIN);
+      }
+      // Jika user login dan berada di login/register, arahkan ke home (ini sudah ada)
+      if (user != null &&
+          (Get.currentRoute == Routes.AUTH_LOGIN ||
+              Get.currentRoute == Routes.AUTH_REGISTER)) {
+        Get.offAllNamed(Routes.HOME);
+      }
     }
   }
 }

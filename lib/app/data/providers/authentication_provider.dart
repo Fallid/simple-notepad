@@ -2,6 +2,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 
 class AuthenticationProvider extends GetxService {
+  // observable
+  final Rx<User?> firebaseUser = Rx<User?>(null);
+
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
   FirebaseAuth get firebaseAuth => _firebaseAuth;
@@ -14,11 +17,13 @@ class AuthenticationProvider extends GetxService {
   }
 
   Future<UserCredential> signIn(String email, String password) async {
-    return await _firebaseAuth.signInWithEmailAndPassword(email: email, password: password);
+    return await _firebaseAuth.signInWithEmailAndPassword(
+        email: email, password: password);
   }
 
   Future<UserCredential> signUp(String email, String password) async {
-    return await _firebaseAuth.createUserWithEmailAndPassword(email: email, password: password);
+    return await _firebaseAuth.createUserWithEmailAndPassword(
+        email: email, password: password);
   }
 
   Future<void> signOut() async {
