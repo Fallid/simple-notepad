@@ -1,0 +1,2 @@
+/home/falls/Works/Frontend-dev/simple-notepad/android/app/.cxx/Debug/3i4g1o72/x86_64/CMakeFiles/edit_cache.dir
+/home/falls/Works/Frontend-dev/simple-notepad/android/app/.cxx/Debug/3i4g1o72/x86_64/CMakeFiles/rebuild_cache.dir

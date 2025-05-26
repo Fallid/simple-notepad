@@ -1,0 +1,2 @@
+/home/falls/Works/Frontend-dev/simple-notepad/android/app/.cxx/Debug/3i4g1o72/armeabi-v7a/CMakeFiles/edit_cache.dir
+/home/falls/Works/Frontend-dev/simple-notepad/android/app/.cxx/Debug/3i4g1o72/armeabi-v7a/CMakeFiles/rebuild_cache.dir
