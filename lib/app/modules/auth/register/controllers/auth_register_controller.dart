@@ -3,12 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:simplenotepad/app/data/language.dart';
+import 'package:simplenotepad/app/data/models/user_model.dart';
+import 'package:simplenotepad/app/data/providers/authentication_provider.dart';
+import 'package:simplenotepad/app/data/providers/user_provider.dart';
 import 'package:simplenotepad/app/modules/auth/register/views/widgets/register_text_field.dart';
 import 'package:simplenotepad/app/routes/app_pages.dart';
 
 class AuthRegisterController extends GetxController {
-  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   final LanguageController languangeController = Get.find<LanguageController>();
+  final AuthenticationProvider _authProvider =
+      Get.find<AuthenticationProvider>();
+  final UserProvider _userProvider = Get.find<UserProvider>();
   TextEditingController nameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
@@ -190,13 +195,31 @@ class AuthRegisterController extends GetxController {
   Future<void> registerUser() async {
     try {
       isLoading.value = true;
-      await _firebaseAuth.createUserWithEmailAndPassword(
-          email: emailController.text, password: passwordController.text);
-      sendEmailVerification();
-      Get.snackbar(
-          "Success Register", "Register Sucees, Lets start your journey",
-          duration: Duration(seconds: 3));
-      Get.offAllNamed(Routes.AUTH_LOGIN);
+      UserCredential auth = await _authProvider.signUp(
+          emailController.text, passwordController.text);
+      User? user = auth.user;
+
+      if (user != null) {
+        sendEmailVerification();
+
+        UserModel newUser = UserModel(
+            uid: user.uid,
+            name: nameController.text.trim(),
+            email: user.email,
+            photoUrl: "assets/images/blank_profile.png",
+            createdAt: DateTime.now(),
+            lastLogin: DateTime.now());
+
+        await _userProvider.createUserFirestore(
+            user.uid, newUser.toFirestore());
+
+        await user.updateDisplayName(nameController.text.trim());
+
+        Get.snackbar(
+            "Success Register", "Register Sucees, Lets start your journey",
+            duration: Duration(seconds: 3));
+        Get.offAllNamed(Routes.AUTH_LOGIN);
+      }
     } on FirebaseAuthException catch (e) {
       Get.showSnackbar(GetSnackBar(
         title: "Failed Login",
@@ -216,14 +239,14 @@ class AuthRegisterController extends GetxController {
       if (user != null && !user.emailVerified) {
         await user.sendEmailVerification();
         // Optionally display a message to the user
-        print('Email verification sent!');
+        debugPrint('Email verification sent!');
       } else {
         // User already verified or not signed in
-        print('User already verified or not signed in.');
+        debugPrint('User already verified or not signed in.');
       }
     } catch (e) {
       // Handle any errors that may occur during the process
-      print('Error sending verification email: $e');
+      debugPrint('Error sending verification email: $e');
     }
   }
 }

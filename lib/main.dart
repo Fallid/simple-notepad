@@ -6,7 +6,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:simplenotepad/app/modules/bindings/permanent_bindings.dart';
-import 'package:simplenotepad/app/modules/splash/bindings/splash_binding.dart';
 import 'package:simplenotepad/app/utils/dimension/screen_dimension.dart';
 import 'package:simplenotepad/firebase_options.dart';
 
