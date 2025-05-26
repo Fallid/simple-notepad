@@ -2,11 +2,14 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:simplenotepad/app/data/language.dart';
+import 'package:simplenotepad/app/data/providers/authentication_provider.dart';
 import 'package:simplenotepad/app/routes/app_pages.dart';
+import 'package:simplenotepad/generated/locales.g.dart';
 
 class AuthLoginController extends GetxController {
-  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
-  final LanguageController languangeController = Get.find<LanguageController>(); 
+  final LanguageController languangeController = Get.find<LanguageController>();
+  final AuthenticationProvider _authenticationProvider =
+      Get.find<AuthenticationProvider>();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
@@ -25,10 +28,6 @@ class AuthLoginController extends GetxController {
     super.onInit();
   }
 
-  @override
-  void onReady() {
-    super.onReady();
-  }
 
   @override
   void onClose() {
@@ -51,7 +50,7 @@ class AuthLoginController extends GetxController {
 
   RxBool emailValidation() {
     if (emailController.text.isEmpty || !emailController.text.isEmail) {
-      errorEmailMesage.value = "Masukkan email yang valid";
+      errorEmailMesage.value = LocaleKeys.error_auth_email_message.tr;
       isEmailValid.value = false;
     } else {
       errorEmailMesage.value = "";
@@ -63,7 +62,8 @@ class AuthLoginController extends GetxController {
   RxBool passwordValidation() {
     if (passwordController.text.isEmpty ||
         passwordController.value.text.length < 8) {
-      errorPasswordMesage.value = "Password harus lebih dari 8 karakter";
+      errorPasswordMesage.value =
+          LocaleKeys.error_auth_password_message.tr;
       isPasswordValid.value = false;
     } else {
       errorPasswordMesage.value = "";
@@ -86,19 +86,23 @@ class AuthLoginController extends GetxController {
   Future<void> loginUser() async {
     try {
       isLoading.value = true;
-      await _firebaseAuth.signInWithEmailAndPassword(
-          email: emailController.text, password: passwordController.text);
-      Get.snackbar("Success Login", "Login Sucees, Welcome back",
+      await _authenticationProvider.signIn(
+          emailController.text.trim(), passwordController.text.trim());
+      Get.snackbar(LocaleKeys.success_auth_title_message.tr,
+          LocaleKeys.success_auth_login_message.tr,
           duration: Duration(seconds: 3));
       Get.offAndToNamed(Routes.HOME);
     } on FirebaseAuthException catch (e) {
       Get.showSnackbar(GetSnackBar(
-        title: "Failed Login",
+        title: LocaleKeys.error_auth_title_message.tr,
         message: e.message,
         duration: Duration(seconds: 3),
+        backgroundColor: Colors.red,
       ));
     } catch (e) {
-      Get.snackbar('Error', 'Login failed: $e', backgroundColor: Colors.red);
+      Get.snackbar(
+          'Error', '${LocaleKeys.error_auth_login_message.tr} $e',
+          backgroundColor: Colors.red);
     } finally {
       isLoading.value = false;
     }

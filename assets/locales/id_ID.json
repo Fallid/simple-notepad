@@ -1,7 +1,7 @@
 {
   "buttons_auth": {
     "login": "Masuk",
-    "register":"Daftar",
+    "register": "Daftar",
     "sign_in": "Masuk di sini",
     "logout": "Keluar",
     "forgot_password": "Lupa Password",
@@ -20,9 +20,24 @@
     "password": "Sandi",
     "name": "Nama",
     "dont_have_account": "Tidak punya akun?",
-    "already_have_account":"Sudah memiliki akun?",
+    "already_have_account": "Sudah memiliki akun?",
     "hint_email": "contoh@mail.com",
     "hint_password": "*****",
     "hint_name": "Jhon due"
+  },
+
+  "error_auth": {
+    "title_message": "Autentikasi Gagal",
+    "register_message": "Gagal daftar:",
+    "login_message": "Gagal masuk:",
+    "name_message": "Nama tidak boleh kosong atau terdapat spesial karakter (1, !, %, @, dll)",
+    "email_message": "Masukkan surel yang valid",
+    "password_message": "Password harus lebih dari 8 karakter"
+  },
+
+  "success_auth": {
+    "title_message": "Autentikasi Berhasil ",
+    "register_message": "Berhasil daftar, mari mulai pengalaman Anda",
+    "login_message": "Berhasil masuk, Selamat datang kembali"
   }
 }

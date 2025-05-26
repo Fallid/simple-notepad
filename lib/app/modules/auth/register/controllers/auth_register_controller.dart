@@ -8,6 +8,7 @@ import 'package:simplenotepad/app/data/providers/authentication_provider.dart';
 import 'package:simplenotepad/app/data/providers/user_provider.dart';
 import 'package:simplenotepad/app/modules/auth/register/views/widgets/register_text_field.dart';
 import 'package:simplenotepad/app/routes/app_pages.dart';
+import 'package:simplenotepad/generated/locales.g.dart';
 
 class AuthRegisterController extends GetxController {
   final LanguageController languangeController = Get.find<LanguageController>();
@@ -17,6 +18,7 @@ class AuthRegisterController extends GetxController {
   TextEditingController nameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  final RegExp _regExp = RegExp(r"^[a-zA-Z ]*$");
 
   RxBool showPassword = true.obs;
   RxBool isNameValid = false.obs;
@@ -36,16 +38,6 @@ class AuthRegisterController extends GetxController {
     emailController;
     passwordController;
     super.onInit();
-  }
-
-  @override
-  void onReady() {
-    super.onReady();
-  }
-
-  @override
-  void onClose() {
-    super.onClose();
   }
 
   @override
@@ -146,10 +138,8 @@ class AuthRegisterController extends GetxController {
   }
 
   RxBool nameValidation() {
-    if (nameController.text.isEmpty ||
-        !nameController.text.contains(RegExp(r"^[a-zA-Z ]*$"))) {
-      errorNameMessage.value =
-          "Nama tidak boleh kosong atau terdapat spesial karakter (!, %, @, dll)";
+    if (nameController.text.isEmpty || !nameController.text.contains(_regExp)) {
+      errorNameMessage.value = LocaleKeys.error_auth_name_message.tr;
       isNameValid.value = false;
     } else {
       errorNameMessage.value = "";
@@ -160,7 +150,7 @@ class AuthRegisterController extends GetxController {
 
   RxBool emailValidation() {
     if (emailController.text.isEmpty || !emailController.text.isEmail) {
-      errorEmailMesage.value = "Masukkan email yang valid";
+      errorEmailMesage.value = LocaleKeys.error_auth_email_message.tr;
       isEmailValid.value = false;
     } else {
       errorEmailMesage.value = "";
@@ -172,7 +162,7 @@ class AuthRegisterController extends GetxController {
   RxBool passwordValidation() {
     if (passwordController.text.isEmpty ||
         passwordController.value.text.length < 8) {
-      errorPasswordMesage.value = "Password harus lebih dari 8 karakter";
+      errorPasswordMesage.value = LocaleKeys.error_auth_password_message.tr;
       isPasswordValid.value = false;
     } else {
       errorPasswordMesage.value = "";
@@ -183,7 +173,7 @@ class AuthRegisterController extends GetxController {
 
   RxBool buttonValidation() {
     isButtonValid.value = (nameController.text.isEmpty ||
-                !nameController.text.contains(RegExp(r"^[a-zA-Z ]*$"))) ||
+                !nameController.text.contains(_regExp)) ||
             (emailController.text.isEmpty || !emailController.text.isEmail) ||
             (passwordController.text.length < 8 ||
                 passwordController.text.isEmpty)
@@ -215,19 +205,21 @@ class AuthRegisterController extends GetxController {
 
         await user.updateDisplayName(nameController.text.trim());
 
-        Get.snackbar(
-            "Success Register", "Register Sucees, Lets start your journey",
+        Get.snackbar(LocaleKeys.success_auth_title_message.tr,
+            LocaleKeys.success_auth_register_message.tr,
             duration: Duration(seconds: 3));
         Get.offAllNamed(Routes.AUTH_LOGIN);
       }
     } on FirebaseAuthException catch (e) {
       Get.showSnackbar(GetSnackBar(
-        title: "Failed Login",
+        title: LocaleKeys.error_auth_title_message.tr,
         message: e.message,
         duration: Duration(seconds: 3),
+        backgroundColor: Colors.red,
       ));
     } catch (e) {
-      Get.snackbar('Error', 'Login failed: $e', backgroundColor: Colors.red);
+      Get.snackbar('Error', '${LocaleKeys.error_auth_register_message.tr} $e',
+          backgroundColor: Colors.red);
     } finally {
       isLoading.value = false;
     }

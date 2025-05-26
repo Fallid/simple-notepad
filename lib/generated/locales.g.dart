@@ -30,6 +30,15 @@ class LocaleKeys {
   static const body_auth_hint_email = 'body_auth_hint_email';
   static const body_auth_hint_password = 'body_auth_hint_password';
   static const body_auth_hint_name = 'body_auth_hint_name';
+  static const error_auth_title_message = 'error_auth_title_message';
+  static const error_auth_register_message = 'error_auth_register_message';
+  static const error_auth_login_message = 'error_auth_login_message';
+  static const error_auth_name_message = 'error_auth_name_message';
+  static const error_auth_email_message = 'error_auth_email_message';
+  static const error_auth_password_message = 'error_auth_password_message';
+  static const success_auth_title_message = 'success_auth_title_message';
+  static const success_auth_register_message = 'success_auth_register_message';
+  static const success_auth_login_message = 'success_auth_login_message';
 }
 
 class Locales {
@@ -52,6 +61,17 @@ class Locales {
     'body_auth_hint_email': 'contoh@mail.com',
     'body_auth_hint_password': '*****',
     'body_auth_hint_name': 'Jhon due',
+    'error_auth_title_message': 'Autentikasi Gagal',
+    'error_auth_register_message': 'Gagal daftar:',
+    'error_auth_login_message': 'Gagal masuk:',
+    'error_auth_name_message':
+        'Nama tidak boleh kosong atau terdapat spesial karakter (1, !, %, @, dll)',
+    'error_auth_email_message': 'Masukkan surel yang valid',
+    'error_auth_password_message': 'Password harus lebih dari 8 karakter',
+    'success_auth_title_message': 'Autentikasi Berhasil ',
+    'success_auth_register_message':
+        'Berhasil daftar, mari mulai pengalaman Anda',
+    'success_auth_login_message': 'Berhasil masuk, Selamat datang kembali',
   };
   static const en_US = {
     'buttons_auth_login': 'Login',
@@ -73,5 +93,16 @@ class Locales {
     'body_auth_hint_email': 'example@mail.com',
     'body_auth_hint_password': '*****',
     'body_auth_hint_name': 'Jhon due',
+    'error_auth_title_message': 'Authentication Failed',
+    'error_auth_register_message': 'Register failed:',
+    'error_auth_login_message': 'Login failed:',
+    'error_auth_name_message':
+        'The name cannot be empty or contain special characters (1, !, %, @, etc.)',
+    'error_auth_email_message': 'Enter a valid email',
+    'error_auth_password_message': 'Password must be longer than 8 characters',
+    'success_auth_title_message': 'Authentication Success',
+    'success_auth_register_message':
+        'Register Success, Lets start your journey',
+    'success_auth_login_message': 'Login Sucees, Welcome back',
   };
 }
