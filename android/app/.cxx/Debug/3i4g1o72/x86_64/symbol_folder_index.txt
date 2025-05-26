@@ -1,0 +1,1 @@
+/home/falls/Works/Frontend-dev/simple-notepad/build/app/intermediates/cxx/Debug/3i4g1o72/obj/x86_64
