@@ -1,0 +1,2 @@
+C:/Latihan Ngoding/TutorFlutter/Simple Notepad/SimpleNotepad/simplenotepad/android/app/.cxx/Debug/343o3s12/x86_64/CMakeFiles/edit_cache.dir
+C:/Latihan Ngoding/TutorFlutter/Simple Notepad/SimpleNotepad/simplenotepad/android/app/.cxx/Debug/343o3s12/x86_64/CMakeFiles/rebuild_cache.dir

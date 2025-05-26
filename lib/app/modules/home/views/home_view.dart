@@ -19,7 +19,7 @@ class HomeView extends GetView<HomeController> {
         child: Column(
           children: [
             Text(
-              LocaleKeys.buttons_login.tr,
+              LocaleKeys.buttons_auth_login.tr,
               style: TextStyle(fontSize: 20.sp),
             ),
             SizedBox(height: 1.h, width: 1.w,),

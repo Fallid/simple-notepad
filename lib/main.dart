@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:get/get.dart';
 import 'package:responsive_framework/responsive_framework.dart';
+import 'package:simplenotepad/app/modules/bindings/permanent_bindings.dart';
 import 'package:simplenotepad/app/utils/dimension/screen_dimension.dart';
 import 'package:simplenotepad/firebase_options.dart';
 
@@ -15,7 +16,7 @@ Future<void> main() async {
   debugPaintSizeEnabled = true;
   // debugPaintPointersEnabled= true;
   // debugRepaintRainbowEnabled= true;
-  debugPaintLayerBordersEnabled = true;
+  // debugPaintLayerBordersEnabled = true;
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
@@ -26,6 +27,7 @@ Future<void> main() async {
       minTextAdapt: true,
       splitScreenMode: true,
       builder: (context, child) => GetMaterialApp(
+        initialBinding: PermanentBindings(),
         title: "Simple Note",
         translationsKeys: AppTranslation.translations,
         locale: Locale('en','US'),
