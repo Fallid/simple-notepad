@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:simplenotepad/app/data/language.dart';
 import 'package:simplenotepad/app/data/providers/authentication_provider.dart';
+import 'package:simplenotepad/app/data/providers/user_provider.dart';
 import 'package:simplenotepad/app/routes/app_pages.dart';
 import 'package:simplenotepad/generated/locales.g.dart';
 
@@ -10,6 +11,7 @@ class AuthLoginController extends GetxController {
   final LanguageController languangeController = Get.find<LanguageController>();
   final AuthenticationProvider _authenticationProvider =
       Get.find<AuthenticationProvider>();
+  final UserProvider _userProvider = Get.find<UserProvider>();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
@@ -109,27 +111,25 @@ class AuthLoginController extends GetxController {
   }
 
   void _handleAuthChanges(User? user) {
-    if (Get.currentRoute == Routes.SPLASH) {
+    if (Get.currentRoute == Routes.AUTH_LOGIN) {
       if (user == null) {
         // Pengguna TIDAK login
-        Get.offAllNamed(Routes.AUTH_LOGIN); // Arahkan ke halaman login
+        _userProvider.stopListeningToCurrentUserProfile();
       } else {
         // Pengguna SUDAH login
-        print('Pengguna ${user.email} sudah login. UID: ${user.uid}');
+        debugPrint('Pengguna ${user.email} sudah login. UID: ${user.uid}');
+        _userProvider.listenToCurrentUserProfile(user.uid);
         Get.offAllNamed(Routes.HOME); // Arahkan ke halaman utama
       }
     } else {
-      // Jika sudah tidak di splash screen, dan status auth berubah (misal logout dari Home)
-      // maka navigasi akan terjadi ke login.
       if (user == null &&
           Get.currentRoute != Routes.AUTH_LOGIN &&
           Get.currentRoute != Routes.AUTH_REGISTER) {
         Get.offAllNamed(Routes.AUTH_LOGIN);
       }
-      // Jika user login dan berada di login/register, arahkan ke home (ini sudah ada)
       if (user != null &&
           (Get.currentRoute == Routes.AUTH_LOGIN ||
-              Get.currentRoute == Routes.AUTH_REGISTER)) {
+              Get.currentRoute == Routes.AUTH_REGISTER )) {
         Get.offAllNamed(Routes.HOME);
       }
     }

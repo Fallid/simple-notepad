@@ -1,23 +1,61 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:simplenotepad/app/data/models/user_model.dart';
+import 'package:simplenotepad/app/data/providers/authentication_provider.dart';
+import 'package:simplenotepad/app/data/providers/user_provider.dart';
 
 class HomeController extends GetxController {
-  //TODO: Implement HomeController
+  final AuthenticationProvider _authenticationProvider =
+      Get.find<AuthenticationProvider>();
+  final UserProvider _userProvider = Get.find<UserProvider>();
+  final Rx<UserModel?> currentUserData = Rx<UserModel?>(null);
+  final RxBool isUserProfileLoading = false.obs;
 
-  final count = 0.obs;
+  final RxString _searchText = ''.obs;
+
+  final TextEditingController _searchController = TextEditingController();
+
   @override
   void onInit() {
     super.onInit();
+    currentUserData.bindStream(_userProvider.currentUserModel.stream);
+    isUserProfileLoading.bindStream(_userProvider.isProfileDataLoading.stream);
+    _searchController.addListener(() {
+      getSearchText.value = _searchController.text.trim();
+    });
   }
 
   @override
   void onReady() {
+    if (_authenticationProvider.firebaseAuth.currentUser != null) {
+      _userProvider.listenToCurrentUserProfile(
+          _authenticationProvider.firebaseAuth.currentUser!.uid);
+    }
     super.onReady();
   }
 
   @override
   void onClose() {
+    _userProvider.stopListeningToCurrentUserProfile();
+    _searchController.dispose();
     super.onClose();
   }
 
-  void increment() => count.value++;
+  TextEditingController get searchController => _searchController;
+
+  RxString get getSearchText => _searchText;
+
+
+  String getDisplayName() {
+    return _userProvider.getDisplayName();
+  }
+
+  String getPhotoUrl() {
+    return _userProvider.getPhotoUrl();
+  }
+
+  void clearSearch() {
+    _searchController.clear();
+    Get.focusScope?.unfocus();
+  }
 }
