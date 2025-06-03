@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:simplenotepad/app/data/models/user_model.dart';
+import 'package:simplenotepad/generated/locales.g.dart';
 
 class UserProvider extends GetxService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -17,25 +18,28 @@ class UserProvider extends GetxService {
   FirebaseStorage get storage => _storage;
   ImagePicker get picker => _picker;
 
-  Rx<UserModel?> get currentUserModel =>
-      _userModel; 
+  Rx<UserModel?> get currentUserModel => _userModel;
+
+  String? getUID() {
+    return _userModel.value?.uid;
+  }
 
   String getDisplayName() {
-    return _userModel.value?.name ?? 'Pengguna';
+    return _userModel.value?.name ?? LocaleKeys.error_auth_load_data.tr;
   }
 
   String getEmail() {
-    return _userModel.value?.email ?? 'Tidak ada email';
+    return _userModel.value?.email ?? LocaleKeys.error_auth_load_data.tr;
   }
 
   String getPhotoUrl() {
     return _userModel.value?.photoUrl ?? '';
   }
 
- void listenToCurrentUserProfile(String uid) {
-    isProfileDataLoading.value = true; 
+  void listenToCurrentUserProfile(String uid) {
+    isProfileDataLoading.value = true;
     _userModel.bindStream(getUserDocument(uid).map((doc) {
-      isProfileDataLoading.value = false; 
+      isProfileDataLoading.value = false;
       if (doc.exists && doc.data() != null) {
         return UserModel.fromFirestore(doc);
       } else {
@@ -46,13 +50,24 @@ class UserProvider extends GetxService {
   }
 
   void stopListeningToCurrentUserProfile() {
-    _userModel.value = null; 
-    isProfileDataLoading.value = false; 
+    _userModel.value = null;
+    isProfileDataLoading.value = false;
     // _userModel.close();
   }
 
-  Future<XFile?> pickImageFromGallery() async {
-    return await _picker.pickImage(source: ImageSource.gallery);
+  Future<XFile?> pickImageFromSource(ImageSource source) async {
+    try {
+      return await _picker.pickImage(source: source);
+    } catch (e) {
+      Get.snackbar(
+        'Error',
+        'Gagal memilih gambar: $e',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
+      return null;
+    }
   }
 
   Future<String> uploadProfilePicture(String uid, XFile imageFile) async {

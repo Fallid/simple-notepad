@@ -4,12 +4,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart' as getx;
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:simplenotepad/app/modules/auth/register/views/widgets/register_text_field.dart';
-import 'package:simplenotepad/app/modules/auth/widgets/authentication_button.dart';
+import 'package:simplenotepad/app/modules/auth/widgets/primarry_button.dart';
 import 'package:simplenotepad/app/utils/themes/color_themes.dart';
 import 'package:simplenotepad/app/utils/themes/svg_themes.dart';
 import 'package:simplenotepad/generated/locales.g.dart';
 
-import '../../../widgets/languange_switch_button.dart';
+import '../../../components/languange_switch_button.dart';
 import '../../widgets/register_login_text_button.dart';
 import '../controllers/auth_register_controller.dart';
 
@@ -112,7 +112,7 @@ class AuthRegisterView extends getx.GetView<AuthRegisterController> {
                   ),
                 ),
                 ResponsiveRowColumnItem(
-                    child: AuthenticationButton(
+                    child: PrimaryButton(
                         buttonValidation: controller.buttonValidation(),
                         isLoading: controller.isLoading,
                         onPressed: controller.registerUser,

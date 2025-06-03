@@ -129,7 +129,7 @@ class AuthLoginController extends GetxController {
       }
       if (user != null &&
           (Get.currentRoute == Routes.AUTH_LOGIN ||
-              Get.currentRoute == Routes.AUTH_REGISTER )) {
+              Get.currentRoute == Routes.AUTH_REGISTER)) {
         Get.offAllNamed(Routes.HOME);
       }
     }

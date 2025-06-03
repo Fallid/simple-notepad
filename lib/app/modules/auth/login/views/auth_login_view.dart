@@ -8,8 +8,8 @@ import 'package:simplenotepad/app/utils/themes/color_themes.dart';
 import 'package:simplenotepad/app/utils/themes/svg_themes.dart';
 import 'package:simplenotepad/generated/locales.g.dart';
 
-import '../../../widgets/languange_switch_button.dart';
-import '../../widgets/authentication_button.dart';
+import '../../../components/languange_switch_button.dart';
+import '../../widgets/primarry_button.dart';
 import '../../widgets/register_login_text_button.dart';
 import '../controllers/auth_login_controller.dart';
 import 'widgets/login_text_field.dart';
@@ -81,7 +81,7 @@ class AuthLoginView extends getx.GetView<AuthLoginController> {
                               style: TextStyle(
                                   fontSize: 20.sp, color: Colors.white),
                             ),
-                            LanguageSwitchButton(onPressed: () =>  controller.languangeController.toggleLocale(),)
+                            LanguageSwitchButton(onPressed: controller.languangeController.toggleLocale,)
                           ],
                         ),
                       ),
@@ -131,7 +131,7 @@ class AuthLoginView extends getx.GetView<AuthLoginController> {
                             ),
                           ))),
                   ResponsiveRowColumnItem(
-                      child: AuthenticationButton(
+                      child: PrimaryButton(
                           buttonValidation: controller.loginButtonValidation(),
                           isLoading: controller.isLoading,
                           onPressed: controller.loginUser,

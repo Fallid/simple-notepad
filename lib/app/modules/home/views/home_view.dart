@@ -78,24 +78,40 @@ class HomeView extends getx.GetView<HomeController> {
                             spacing: 10.w,
                             children: [
                               ClipRRect(
-                                borderRadius: BorderRadius.circular(5.r),
-                                child: CachedNetworkImage(
-                                  imageUrl: "assets/images/blank_profile.png",
-                                  errorWidget: (context, url, error) =>
-                                      Icon(Icons.error_outline),
-                                  placeholder: (context, url) => CardLoading(
-                                    height: 32.r,
-                                    width: 32.r,
-                                    borderRadius: BorderRadius.circular(5.r),
-                                  ),
-                                  width: 32.r,
-                                  height: 32.r,
-                                  fit: BoxFit.contain,
-                                ),
-                              ),
+                                  borderRadius: BorderRadius.circular(5.r),
+                                  child: getx.Obx(
+                                    () {
+                                      if (controller
+                                          .isUserProfileLoading.value) {
+                                        return CardLoading(
+                                          height: 32.r,
+                                          width: 32.r,
+                                          borderRadius:
+                                              BorderRadius.circular(5).r,
+                                        );
+                                      } else {
+                                        return CachedNetworkImage(
+                                          imageUrl:
+                                              Uri.parse(controller.getPhotoUrl)
+                                                  .toString(),
+                                          errorWidget: (context, url, error) =>
+                                              Icon(Icons.error_outline),
+                                          placeholder: (context, url) =>
+                                              CardLoading(
+                                            height: 32.r,
+                                            width: 32.r,
+                                            borderRadius:
+                                                BorderRadius.circular(5.r),
+                                          ),
+                                          width: 32.r,
+                                          height: 32.r,
+                                          fit: BoxFit.cover,
+                                        );
+                                      }
+                                    },
+                                  )),
                               getx.Obx(() {
-                                if (controller.isUserProfileLoading.value &&
-                                    controller.currentUserData.value == null) {
+                                if (controller.currentUserData.value == null) {
                                   return Center(
                                       child: CardLoading(height: 32.r));
                                 } else {
@@ -103,7 +119,7 @@ class HomeView extends getx.GetView<HomeController> {
                                     constraints: BoxConstraints(
                                         maxWidth: 100.w, minWidth: 30.w),
                                     child: Text(
-                                      controller.getDisplayName(),
+                                      controller.getDisplayName,
                                       style: TextStyle(
                                           fontSize: 12.sp,
                                           fontWeight: FontWeight.bold,

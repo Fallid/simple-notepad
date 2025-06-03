@@ -15,6 +15,8 @@ class HomeController extends GetxController {
 
   final TextEditingController _searchController = TextEditingController();
 
+  String get getPhotoUrl => _userProvider.getPhotoUrl();
+  String get getDisplayName => _userProvider.getDisplayName();
   @override
   void onInit() {
     super.onInit();
@@ -44,15 +46,6 @@ class HomeController extends GetxController {
   TextEditingController get searchController => _searchController;
 
   RxString get getSearchText => _searchText;
-
-
-  String getDisplayName() {
-    return _userProvider.getDisplayName();
-  }
-
-  String getPhotoUrl() {
-    return _userProvider.getPhotoUrl();
-  }
 
   void clearSearch() {
     _searchController.clear();
