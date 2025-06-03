@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:simplenotepad/app/utils/themes/color_themes.dart';
 import 'package:simplenotepad/app/utils/themes/svg_themes.dart';
 
 class LanguageSwitchButton extends StatelessWidget {
@@ -19,7 +20,7 @@ class LanguageSwitchButton extends StatelessWidget {
         SvgRoutes.translateIllust,
         fit: BoxFit.contain,
         colorFilter: ColorFilter.mode(
-            Colors.white, BlendMode.srcIn),
+            AppColor.primarySecondColor, BlendMode.srcIn),
         height: 24.r,
         width: 24.r,
       ),

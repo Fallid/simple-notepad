@@ -3,8 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:simplenotepad/app/utils/themes/color_themes.dart';
 
-class AuthenticationButton extends StatelessWidget {
-  const AuthenticationButton({
+class PrimaryButton extends StatelessWidget {
+  const PrimaryButton({
     super.key,
     required this.buttonValidation,
     required this.isLoading,
@@ -22,23 +22,23 @@ class AuthenticationButton extends StatelessWidget {
     return Obx(
       () => ElevatedButton(
           style: ButtonStyle(
-              backgroundColor: WidgetStatePropertyAll(
-                  buttonValidation.isFalse
-                      ? AppColor.primarySecondDisableColor
-                      : AppColor.primarySecondColor),
+              padding:
+                  WidgetStatePropertyAll(EdgeInsets.symmetric(vertical: 10.0).r),
+              backgroundColor: WidgetStatePropertyAll(buttonValidation.isFalse
+                  ? AppColor.primarySecondDisableColor
+                  : AppColor.primarySecondColor),
               shape: WidgetStatePropertyAll(RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10).w)),
-              minimumSize: WidgetStatePropertyAll(Size(context.width, 40.h))),
-          onPressed: (buttonValidation.isTrue && isLoading.isFalse)
-              ? onPressed
-              : null,
+                  borderRadius: BorderRadius.circular(10).r)),
+              minimumSize: WidgetStatePropertyAll(Size(1.sw, 31.h))),
+          onPressed:
+              (buttonValidation.isTrue && isLoading.isFalse) ? onPressed : null,
           child: isLoading.isTrue
               ? CircularProgressIndicator()
               : Text(
                   title,
                   style: TextStyle(
                       color: AppColor.backgroundColor,
-                      fontSize: 14.sp,
+                      fontSize: 12.sp,
                       fontWeight: FontWeight.bold),
                 )),
     );
