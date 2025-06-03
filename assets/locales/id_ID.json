@@ -4,6 +4,7 @@
     "register": "Daftar",
     "sign_in": "Masuk di sini",
     "logout": "Keluar",
+    "update": "Perbarui",
     "forgot_password": "Lupa Password",
     "sign_up": "Daftar secara gratis"
   },
@@ -18,6 +19,8 @@
   "body_auth": {
     "email": "Surel",
     "password": "Sandi",
+    "new_password": "Sandi Baru",
+    "confirm_password": "Konfirmasi Sandi Baru",
     "name": "Nama",
     "dont_have_account": "Tidak punya akun?",
     "already_have_account": "Sudah memiliki akun?",
@@ -32,7 +35,8 @@
     "login_message": "Gagal masuk:",
     "name_message": "Nama tidak boleh kosong atau terdapat spesial karakter (1, !, %, @, dll)",
     "email_message": "Masukkan surel yang valid",
-    "password_message": "Password harus lebih dari 8 karakter"
+    "password_message": "Password harus lebih dari 8 karakter",
+    "load_data":"Sedang memuat data"
   },
 
   "success_auth": {
